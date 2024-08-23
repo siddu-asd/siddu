@@ -25,6 +25,12 @@
             animation-iteration-count: infinite;
         }
 
+        @keyframes flash {
+            0% { background-color: black; }
+            50% { background-color: red; }
+            100% { background-color: black; }
+        }
+
         body {
             text-align: center;
             margin-top: 20%;
@@ -58,6 +64,10 @@
             75% { transform: translate(1px, 1px); }
             100% { transform: translate(-1px, -1px); }
         }
+
+        .flashing-background {
+            animation: flash 0.2s infinite;
+        }
     </style>
 </head>
 <body>
@@ -67,20 +77,25 @@
         Your mobile is hacked by <br> Palithya Siddu! <br> All controls are under Siddu Palithya!
     </div>
 
+    <audio id="scarySound" src="https://www.soundjay.com/button/sounds/beep-07.wav"></audio>
+
     <script>
         const trickLink = document.getElementById('trickLink');
         const hackedMessage = document.getElementById('hackedMessage');
+        const scarySound = document.getElementById('scarySound');
 
         trickLink.addEventListener('click', function(e) {
             e.preventDefault();
+
+            // Play the sound
+            scarySound.play().catch(error => {
+                console.error("Audio playback failed:", error);
+            });
+
             document.body.classList.add('shake');
+            document.body.classList.add('flashing-background');
             trickLink.style.display = 'none';
             hackedMessage.style.display = 'block';
-
-            // Play a terrifying sound loop
-            const audio = new Audio('https://www.soundjay.com/button/sounds/beep-07.wav');
-            audio.loop = true;
-            audio.play();
 
             // Shake the screen indefinitely
             const shakeInterval = setInterval(() => {
@@ -102,9 +117,10 @@
             window.addEventListener('keydown', function(event) {
                 if (event.key === 'ArrowUp' || event.keyCode === 38) { // Volume up key
                     document.body.classList.remove('shake');
+                    document.body.classList.remove('flashing-background');
                     hackedMessage.style.display = 'none';
                     clearInterval(shakeInterval);
-                    audio.pause();
+                    scarySound.pause();
                     alert('You have regained control!');
                 }
             });
