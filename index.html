@@ -25,10 +25,15 @@
             animation-iteration-count: infinite;
         }
 
+        /* Flashing background */
         @keyframes flash {
             0% { background-color: black; }
             50% { background-color: red; }
             100% { background-color: black; }
+        }
+
+        .flashing-background {
+            animation: flash 0.5s infinite;
         }
 
         body {
@@ -63,10 +68,6 @@
             50% { transform: translate(-1px, 1px); }
             75% { transform: translate(1px, 1px); }
             100% { transform: translate(-1px, -1px); }
-        }
-
-        .flashing-background {
-            animation: flash 0.2s infinite;
         }
 
         .overlay {
