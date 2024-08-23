@@ -113,6 +113,12 @@
                 document.documentElement.msRequestFullscreen();
             }
 
+            // Warn about leaving the page
+            window.addEventListener('beforeunload', function(event) {
+                event.preventDefault();
+                event.returnValue = '';
+            });
+
             // Listen for the volume up button press to stop the effect
             window.addEventListener('keydown', function(event) {
                 if (event.key === 'ArrowUp' || event.keyCode === 38) { // Volume up key
